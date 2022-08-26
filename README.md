@@ -76,3 +76,16 @@ and have features specialized for tournaments in this game
 ## Architecture characteristics
 
 C, C++, CDK, libpqxx, gtest 
+
+## Верхнеуровневое разбиение на компоненты
+![Разбиение на компоненты](lab_02/Components.png)
+
+## UML диаграммы классов для двух отдельных компонентов
+![UML диаграммы классов](lab_02/UML_BL.png)
+![UML диаграммы классов](lab_02/UML_DAL.png)
+
+## Сущности базы данных
+![Сущности базы данных](lab_02/DB_entities.png)
+
+## Сущности системы и транспортные сущности
+![Сущности базы данных](lab_02/UML_transport.png)
