@@ -11,12 +11,14 @@
 #include "NotCriticalError.h"
 
 void polytour::bl::facade::TournamentFacade::create(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called create new tournament func");
     processError([this, tournament](){
         _pTransactionFactory->create(tournament);
     });
 }
 
 void polytour::bl::facade::TournamentFacade::remove(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called erase tournament func");
     processError([this, tournament](){
         if (tournament.name.empty())
             throw polytour::NotCriticalError("name field doesn't passed");
@@ -32,6 +34,7 @@ void polytour::bl::facade::TournamentFacade::remove(const polytour::transport::T
 
 std::vector<polytour::transport::Tournament>
 polytour::bl::facade::TournamentFacade::getTournaments(const polytour::transport::Tournament::search_t &search) {
+    transport::Logger::info("Called get tournaments func");
     std::vector<polytour::transport::Tournament> result;
     processError([this, search, &result]() {
         result = _pTransactionFactory->search(search);
@@ -41,6 +44,7 @@ polytour::bl::facade::TournamentFacade::getTournaments(const polytour::transport
 
 std::vector<polytour::transport::User>
 polytour::bl::facade::TournamentFacade::getTournamentParticipants(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called get tournament participants func");
     std::vector<polytour::transport::User> result;
     processError([this, tournament, &result]() {
         result = _pTransactionFactory->getParticipants(tournament);
@@ -49,18 +53,21 @@ polytour::bl::facade::TournamentFacade::getTournamentParticipants(const polytour
 }
 
 void polytour::bl::facade::TournamentFacade::join(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called join tournament func");
     processError([this, tournament](){
         _pTransactionFactory->join(tournament);
     });
 }
 
 void polytour::bl::facade::TournamentFacade::leave(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called leave tournament func");
     processError([this, tournament](){
         _pTransactionFactory->leave(tournament);
     });
 }
 
 void polytour::bl::facade::TournamentFacade::start(const polytour::transport::Tournament &tournament) {
+    transport::Logger::info("Called start tournament func");
     processError([this, tournament](){
         _pTransactionFactory->start(tournament);
     });

@@ -7,6 +7,7 @@
 #include "private/pqxx/converters/ResultConverter.h"
 #include "pqxx/pqxx"
 #include "CriticalError.h"
+#include "utility/JsonConfiguration.h"
 
 class PostgreSqlExecResult: public polytour::db::IDatabaseExecResult {
 public:
@@ -31,27 +32,28 @@ public:
                 "user=" + connInfo["user"].toString() + " "
                 "host=localhost "
                 "password=" + connInfo["password"].toString() + " "
-                "dbname=mydb"
+                "dbname=" + utility::JsonConfiguration::getInstance()->db_name
         )),
         _transaction(_conn)
         {
+            transport::Logger::debug("Init postgresql adapter");
             _transaction.exec("begin;");
             _transaction.exec("savepoint f_savepoint;");
         }
 
     std::shared_ptr<IDatabaseExecResult> executeSqlCommand(const std::string& command) {
         try {
-            auto username = _transaction.conn().username();
+            transport::Logger::debug("Exec db command: " + command);
             return std::make_shared<PostgreSqlExecResult>(_transaction.exec(command));
         }
         catch (std::exception& ex) {
             _transaction.exec("rollback to savepoint f_savepoint;");
-            auto what = ex.what();
             throw polytour::CriticalError("DB command execution error: " + std::string(ex.what()));
         }
     }
 
     void commit() {
+        transport::Logger::debug("commit postgresql transaction");
         _transaction.commit();
     }
 

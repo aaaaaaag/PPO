@@ -3,6 +3,7 @@
 //
 
 #include "public/repositories/MatchRepository.h"
+#include "utility/JsonConfiguration.h"
 
 #define ID_KEY "id"
 #define TOURNAMENT_ID_KEY "tournament_id"
@@ -187,7 +188,7 @@ polytour::db::repository::MatchRepository::fromFieldSet(const polytour::db::util
 polytour::db::repository::Identity polytour::db::repository::MatchRepository::getIdentity() {
     Identity result;
 
-    result.tableName = "matches";
+    result.tableName = utility::JsonConfiguration::getInstance()->table_matches_name;
     result.tableColumns.emplace(ID_KEY, Identity::column_description_t{
             .type = utility::TableTypes::Serial,
             .mandatory = utility::FieldMandatory::NotNull

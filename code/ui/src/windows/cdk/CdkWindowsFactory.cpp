@@ -36,20 +36,29 @@ polytour::ui::CdkWindowsFactory::createTournamentWindow(const transport::Tournam
 
     if (currentUser.id == tournament.organizer_id) {
         bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::Leader;
-        if (tournament.status == transport::Tournament::status_wait_for_participants())
+        transport::Logger::debug("Change user current role to Leader");
+        if (tournament.status == transport::Tournament::status_wait_for_participants()) {
+            transport::Logger::debug("Create LeaderWaitTournamentWindow");
             return std::make_unique<cdk::LeaderWaitTournamentWindow>(_pCoordinator.lock(), tournament);
+        }
         else if (tournament.status == transport::Tournament::status_started() ||
-                tournament.status == transport::Tournament::status_finished())
+                tournament.status == transport::Tournament::status_finished()) {
+            transport::Logger::debug("Create LeaderStartedTournamentWindow");
             return std::make_unique<cdk::LeaderStartedTournamentWindow>(_pCoordinator.lock(), tournament);
+        }
         else
             throw std::logic_error("ban");
     }
 
     if (isParticipant) {
         bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::Participant;
+        transport::Logger::debug("Change user current role to Participant");
+        transport::Logger::debug("Create ParticipantTournamentWindow");
         return std::make_unique<cdk::ParticipantTournamentWindow>(_pCoordinator.lock(), tournament);
     } else {
         bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::CommonUser;
+        transport::Logger::debug("Change user current role to CommonUser");
+        transport::Logger::debug("Create GuestTournamentWindow");
         return std::make_unique<cdk::GuestTournamentWindow>(_pCoordinator.lock(), tournament);
     }
 }

@@ -9,11 +9,10 @@
 #include "AuthUserSingleton.h"
 #include "NotCriticalError.h"
 #include "CurrentRoleSingleton.h"
-
+#include "Logger.h"
 
 void finish(const std::shared_ptr<polytour::db::repository::IRepositoryFactory>& repoFactory,
             const polytour::transport::Match &match, const polytour::transport::User& winner) {
-
     auto matchRepo = repoFactory->getMatchRepository();
     auto updatedMatch = match;
     updatedMatch.status = polytour::transport::Match::status_finished();
@@ -58,11 +57,13 @@ void finish(const std::shared_ptr<polytour::db::repository::IRepositoryFactory>&
 
 void
 polytour::bl::transaction::TournamentTransactionFactory::create(const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory create method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getTournamentRepository()->addObj(tournament);
 }
 
 void polytour::bl::transaction::TournamentTransactionFactory::erase(const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory erase method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     auto* tournamentRepo = repoFactory->getTournamentRepository();
     auto* matchRepo = repoFactory->getMatchRepository();
@@ -80,6 +81,7 @@ void polytour::bl::transaction::TournamentTransactionFactory::erase(const polyto
 }
 
 void polytour::bl::transaction::TournamentTransactionFactory::join(const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory join method called");
     if ((tournament.cur_participants_num == tournament.max_participants_num) and
         (tournament.status != tournament.status_wait_for_participants()))
         return;
@@ -99,6 +101,7 @@ void polytour::bl::transaction::TournamentTransactionFactory::join(const polytou
 }
 
 void polytour::bl::transaction::TournamentTransactionFactory::leave(const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory leave method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     auto* tournamentRepo = repoFactory->getTournamentRepository();
     auto* tournamentParticipantsRepo = repoFactory->getTournamentParticipantsRepository();
@@ -156,12 +159,14 @@ void polytour::bl::transaction::TournamentTransactionFactory::leave(const polyto
 
 std::vector<polytour::transport::Tournament> polytour::bl::transaction::TournamentTransactionFactory::search(
         const polytour::transport::Tournament::search_t &search) {
+    transport::Logger::trace("TournamentTransactionFactory search method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     return repoFactory->getTournamentRepository()->findObj(search);
 }
 
 std::vector<polytour::transport::User> polytour::bl::transaction::TournamentTransactionFactory::getParticipants(
         const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory getParticipants method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     auto participants = repoFactory->getTournamentParticipantsRepository()->findObj(
             {.tournament_id_ = tournament.id});
@@ -174,6 +179,7 @@ std::vector<polytour::transport::User> polytour::bl::transaction::TournamentTran
 }
 
 void polytour::bl::transaction::TournamentTransactionFactory::start(const polytour::transport::Tournament &tournament) {
+    transport::Logger::trace("TournamentTransactionFactory start method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     auto tournamentRepo = repoFactory->getTournamentRepository();
     auto matchRepo = repoFactory->getMatchRepository();

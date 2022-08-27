@@ -3,6 +3,7 @@
 //
 
 #include "repositories/TournamentParticipantsRepository.h"
+#include "utility/JsonConfiguration.h"
 
 #define ID_KEY "id"
 #define TOURNAMENT_ID_KEY "tournament_id"
@@ -45,7 +46,7 @@ polytour::db::repository::TournamentParticipantsRepository::fromFieldSet(const p
 polytour::db::repository::Identity polytour::db::repository::TournamentParticipantsRepository::getIdentity() {
     Identity result;
 
-    result.tableName = "tournament_participants";
+    result.tableName = utility::JsonConfiguration::getInstance()->table_tournament_participants_name;
     result.tableColumns.emplace(ID_KEY, Identity::column_description_t{
             .type = utility::TableTypes::Serial,
             .mandatory = utility::FieldMandatory::NotNull

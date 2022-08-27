@@ -11,6 +11,7 @@
 #include "ErrorObj.h"
 #include "NotCriticalError.h"
 #include "CriticalError.h"
+#include "Logger.h"
 
 namespace polytour::bl::facade {
     class IFacadeErrorProcessor {
@@ -38,15 +39,16 @@ namespace polytour::bl::facade {
                 func();
             }
             catch (NotCriticalError& err) {
-
+                transport::Logger::trace(std::string("FacadeErrorProcessor catch not critical error: ") + err.what());
                 _errorObj = ErrorObj(err.what(), ErrorObj::ErrorType::NotCritical);
             }
             catch (CriticalError& err) {
-
+                transport::Logger::trace(std::string("FacadeErrorProcessor catch critical error: ") + err.what());
                 _errorObj = ErrorObj(err.what(), ErrorObj::ErrorType::Critical);
             }
             catch (...) {
-
+                transport::Logger::error("Occurred unexpected error");
+                throw std::runtime_error("Occurred unexpected error");
             }
         }
 

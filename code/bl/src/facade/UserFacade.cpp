@@ -11,6 +11,7 @@
 #include "NotCriticalError.h"
 
 void polytour::bl::facade::UserFacade::auth(const std::string &nick, const std::string &pass) {
+    transport::Logger::info("Called auth user func");
     processError([this, pass, nick]() {
         auto users = _pTransactionFactory->searchUsers({.password_ = pass, .nickname_ = nick});
         if (users.size() != 1)
@@ -21,6 +22,7 @@ void polytour::bl::facade::UserFacade::auth(const std::string &nick, const std::
 }
 
 std::vector<polytour::transport::User> polytour::bl::facade::UserFacade::getUsers(polytour::transport::User::search_t search) {
+    transport::Logger::info("Called get users func");
     std::vector<transport::User> result;
     processError([this, search, &result]() {
         result = _pTransactionFactory->searchUsers(search);
@@ -29,12 +31,14 @@ std::vector<polytour::transport::User> polytour::bl::facade::UserFacade::getUser
 }
 
 void polytour::bl::facade::UserFacade::deleteUser(const polytour::transport::User &user) {
+    transport::Logger::info("Called delete user func");
     processError([this, user]() {
         _pTransactionFactory->deleteUser(user);
     });
 }
 
 void polytour::bl::facade::UserFacade::regNewUser(const polytour::transport::User &user) {
+    transport::Logger::info("Called register new user func");
     processError([this, user]() {
         if (user.nickname.empty())
             throw polytour::NotCriticalError("Nickname field doesn't passed");
@@ -52,6 +56,7 @@ void polytour::bl::facade::UserFacade::regNewUser(const polytour::transport::Use
 }
 
 void polytour::bl::facade::UserFacade::updateUser(const polytour::transport::User &user) {
+    transport::Logger::info("Called update user func");
     auto curUser = *AuthUserSingleton::getInstance();
     processError([this, user, curUser]() {
         if (user.nickname.empty())
@@ -72,6 +77,7 @@ void polytour::bl::facade::UserFacade::updateUser(const polytour::transport::Use
 }
 
 polytour::transport::User polytour::bl::facade::UserFacade::currentUser() {
+    transport::Logger::info("Called get current user info func");
     transport::User result;
     auto authUserNick = AuthUserSingleton::getInstance()->nickname;
     processError([this, authUserNick, &result]() {

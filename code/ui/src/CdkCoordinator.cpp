@@ -7,6 +7,7 @@
 #include <utility>
 #include "facade/MainFacade.h"
 #include "CurrentRoleSingleton.h"
+#include "Logger.h"
 
 std::optional<polytour::bl::ErrorObj>
 polytour::ui::CdkCoordinator::authorize(const std::string &nick, const std::string &pass) {
@@ -36,52 +37,64 @@ std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::signUp(polyt
     if (_pMainFacade->userAPI()->isError())
         return _pMainFacade->userAPI()->getError();
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::Guest;
+    transport::Logger::debug("Change user current role to Guest");
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toSignIn() {
+    transport::Logger::info("Go to sign in window");
     _pCurrentWindow->destroy();
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::Guest;
+    transport::Logger::debug("Change user current role to Guest");
     _pCurrentWindow = _pWindowsFactory->createAuthorizationWindow();
     _pCurrentWindow->init();
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toSignUp() {
+    transport::Logger::info("Go to sign up window");
     _pCurrentWindow->destroy();
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::Guest;
+    transport::Logger::debug("Change user current role to Guest");
     _pCurrentWindow = _pWindowsFactory->createSignUpWindow();
     _pCurrentWindow->init();
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toMainMenu() {
+    transport::Logger::info("Go to main menu window");
     _pCurrentWindow->destroy();
     _pCurrentWindow = nullptr;
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::CommonUser;
+    transport::Logger::debug("Change user current role to CommonUser");
     _pCurrentWindow = _pWindowsFactory->createMainMenuWindow();
     _pCurrentWindow->init();
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toUpdateUser() {
+    transport::Logger::info("Go to update user window");
     _pCurrentWindow->destroy();
     _pCurrentWindow = nullptr;
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::CommonUser;
+    transport::Logger::debug("Change user current role to CommonUser");
     _pCurrentWindow = _pWindowsFactory->createUserInfoWindow();
     _pCurrentWindow->init();
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toTournamentCreation() {
+    transport::Logger::info("Go to tournament creation window");
     _pCurrentWindow->destroy();
     bl::CurrentRoleSingleton::getInstance()->role = transport::Roles::CommonUser;
+    transport::Logger::debug("Change user current role to CommonUser");
     _pCurrentWindow = _pWindowsFactory->createTournamentCreationWindow();
     _pCurrentWindow->init();
     return std::nullopt;
 }
 
 std::optional<polytour::bl::ErrorObj> polytour::ui::CdkCoordinator::toTournament(const transport::Tournament& tournament) {
+    transport::Logger::info("Go to tournament window");
     _pCurrentWindow->destroy();
     _pCurrentWindow = _pWindowsFactory->createTournamentWindow(tournament);
     _pCurrentWindow->init();
