@@ -15,7 +15,7 @@ namespace polytour {
     class NotCriticalError: public std::exception {
     public:
         explicit NotCriticalError(std::string  errorMsg): _errorMsg(std::move(errorMsg)) {
-            transport::Logger::warning("Not critical error" + _errorMsg);
+            transport::Logger::warning("Not critical error: " + _errorMsg);
         }
 
         [[nodiscard]] const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override {

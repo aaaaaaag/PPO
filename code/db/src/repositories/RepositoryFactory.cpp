@@ -5,7 +5,9 @@
 #include "repositories/RepositoryFactory.h"
 #include "SqlConnection.h"
 #include "PostgreSqlAdapter.h"
+#include "mysql/MySqlAdapter.h"
 #include "utility/PostgreSqlCommandSource.h"
+#include "utility/MySqlCommandSource.h"
 #include "utility/JsonConfiguration.h"
 
 using namespace polytour::db::repository;
@@ -21,7 +23,10 @@ polytour::db::repository::RepositoryFactory::RepositoryFactory(const transport::
             _pConn = std::make_shared<SqlConnection>(std::make_shared<PostgreSqlAdapter>(connInfo),
                                                      std::make_shared<utility::PostgreSqlCommandSource>());
             break;
-        case utility::DbConfiguration::Sqls::MongoDb:
+        case utility::DbConfiguration::Sqls::MySql:
+            _pConn = std::make_shared<SqlConnection>(std::make_shared<MySqlAdapter>(connInfo),
+                                                     std::make_shared<utility::MySqlCommandSource>());
+            break;
         default:
             throw std::logic_error("WOW we dont have mongodb");
     }

@@ -30,11 +30,34 @@ add_library(${PROJECT_NAME} STATIC
         inc/public/repositories/MatchRepository.h
         src/repositories/RepositoryFactory.cpp
         inc/public/repositories/RepositoryFactory.h
-        inc/public/repositories/IRepositoryFactory.h src/repositories/TournamentParticipantsRepository.cpp inc/public/repositories/TournamentParticipantsRepository.h inc/public/repositories/roles/IRole.h src/repositories/roles/GuestRole.cpp inc/public/repositories/roles/GuestRole.h src/repositories/roles/TournamentParticipantRole.cpp inc/public/repositories/roles/TournamentParticipantRole.h src/repositories/roles/TournamentLeaderRole.cpp inc/public/repositories/roles/TournamentLeaderRole.h inc/public/ActiveRoleSingleton.h inc/public/repositories/IRepositoryFactoryCreator.h src/repositories/roles/RolesConverter.cpp inc/public/repositories/roles/RolesConverter.h src/repositories/RepositoryFactoryCreator.cpp inc/public/repositories/RepositoryFactoryCreator.h inc/public/repositories/roles/CommonUserRole.h src/repositories/roles/CommonUserRole.cpp src/utility/JsonConfiguration.cpp inc/public/utility/JsonConfiguration.h)
+        inc/public/repositories/IRepositoryFactory.h
+        src/repositories/TournamentParticipantsRepository.cpp
+        inc/public/repositories/TournamentParticipantsRepository.h
+        inc/public/repositories/roles/IRole.h
+        src/repositories/roles/GuestRole.cpp
+        inc/public/repositories/roles/GuestRole.h
+        src/repositories/roles/TournamentParticipantRole.cpp
+        inc/public/repositories/roles/TournamentParticipantRole.h
+        src/repositories/roles/TournamentLeaderRole.cpp
+        inc/public/repositories/roles/TournamentLeaderRole.h
+        inc/public/ActiveRoleSingleton.h
+        inc/public/repositories/IRepositoryFactoryCreator.h
+        src/repositories/roles/RolesConverter.cpp
+        inc/public/repositories/roles/RolesConverter.h
+        src/repositories/RepositoryFactoryCreator.cpp
+        inc/public/repositories/RepositoryFactoryCreator.h
+        inc/public/repositories/roles/CommonUserRole.h
+        src/repositories/roles/CommonUserRole.cpp
+        src/utility/JsonConfiguration.cpp
+        inc/public/utility/JsonConfiguration.h
+        src/mysql/MySqlAdapter.cpp
+        inc/public/mysql/MySqlAdapter.h
+        inc/private/cppconn/converters/ResultConverter.h src/utility/MySqlCommandSource.cpp inc/public/utility/MySqlCommandSource.h)
 
 target_link_libraries(${PROJECT_NAME} transport)
 target_link_libraries(${PROJECT_NAME} pqxx)
 target_link_libraries(${PROJECT_NAME} jsoncpp_lib)
+target_link_libraries(${PROJECT_NAME} mysqlcppconn)
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 target_include_directories(${PROJECT_NAME} PUBLIC inc/public)
 target_include_directories(${PROJECT_NAME} PUBLIC ../transport)

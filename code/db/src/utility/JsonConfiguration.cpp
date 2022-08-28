@@ -24,8 +24,8 @@ void polytour::db::utility::DbConfiguration::parse(const std::string &pathToConf
     auto usedSql = root["used_sql"].asString();
     if (usedSql == "postgres")
         used_sql = Sqls::Postgres;
-    else if (usedSql == "mongoDb")
-        used_sql = Sqls::MongoDb;
+    else if (usedSql == "mysql")
+        used_sql = Sqls::MySql;
     else
         throw std::logic_error("Configuration file contains invalid used sql name");
 }
