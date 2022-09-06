@@ -8,13 +8,16 @@
 #include "repositories/RepositoryFactory.h"
 #include "AuthUserSingleton.h"
 #include "CurrentRoleSingleton.h"
+#include "Logger.h"
 
 void polytour::bl::transaction::UserTransactionFactory::addUser(const polytour::transport::User &user) {
+    transport::Logger::trace("UserTransactionFactory addUser method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getUserRepository()->addObj(user);
 }
 
 void polytour::bl::transaction::UserTransactionFactory::deleteUser(const polytour::transport::User &user) {
+    transport::Logger::trace("UserTransactionFactory deleteUser method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
 
     auto* repoUser = repoFactory->getUserRepository();
@@ -51,12 +54,14 @@ void polytour::bl::transaction::UserTransactionFactory::deleteUser(const polytou
 
 void polytour::bl::transaction::UserTransactionFactory::updateUser(const polytour::transport::User &curUser,
                                                                    const polytour::transport::User &newUser) {
+    transport::Logger::trace("UserTransactionFactory updateUser method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getUserRepository()->updateObj(curUser, newUser);
 }
 
 std::vector<polytour::transport::User>
 polytour::bl::transaction::UserTransactionFactory::searchUsers(const polytour::transport::User::search_t &searchUser) {
+    transport::Logger::trace("UserTransactionFactory searchUsers method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     return repoFactory->getUserRepository()->findObj(searchUser);
 }

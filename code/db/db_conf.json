@@ -1,0 +1,16 @@
+{
+  "users_table": {
+    "name": "users"
+  },
+  "matches_table": {
+    "name": "matches"
+  },
+  "tournaments_table": {
+    "name": "tournaments"
+  },
+  "tournament_participants_table": {
+    "name": "tournament_participants"
+  },
+  "db_name": "mydb",
+  "used_sql": "postgres"
+}

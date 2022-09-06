@@ -7,30 +7,36 @@
 #include <utility>
 #include "AuthUserSingleton.h"
 #include "CurrentRoleSingleton.h"
+#include "Logger.h"
 
 void polytour::bl::transaction::MatchTransactionFactory::create(const polytour::transport::Match &match) {
+    transport::Logger::trace("MatchTransactionFactory create method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getMatchRepository()->addObj(match);
 }
 
 void polytour::bl::transaction::MatchTransactionFactory::erase(const polytour::transport::Match &match) {
+    transport::Logger::trace("MatchTransactionFactory erase method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getMatchRepository()->deleteObj(match);
 }
 
 std::vector<polytour::transport::Match>
 polytour::bl::transaction::MatchTransactionFactory::getMatches(const polytour::transport::Match::search_t &search) {
+    transport::Logger::trace("MatchTransactionFactory getMatches method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     return repoFactory->getMatchRepository()->findObj(search);
 }
 
 void polytour::bl::transaction::MatchTransactionFactory::updateMatch(const polytour::transport::Match &curMatch,
                                                                      const polytour::transport::Match &newMatch) {
+    transport::Logger::trace("MatchTransactionFactory updateMatch method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getMatchRepository()->updateObj(curMatch, newMatch);
 }
 
 void polytour::bl::transaction::MatchTransactionFactory::finish(const polytour::transport::Match &match, const transport::User& winner) {
+    transport::Logger::trace("MatchTransactionFactory finish method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     auto matchRepo = repoFactory->getMatchRepository();
     auto updatedMatch = match;

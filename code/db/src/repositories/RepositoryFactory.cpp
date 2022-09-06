@@ -6,6 +6,7 @@
 #include "SqlConnection.h"
 #include "PostgreSqlAdapter.h"
 #include "utility/PostgreSqlCommandSource.h"
+#include "utility/JsonConfiguration.h"
 
 using namespace polytour::db::repository;
 
@@ -13,8 +14,18 @@ polytour::db::repository::RepositoryFactory::RepositoryFactory(const transport::
     utility::FieldSet connInfo;
     connInfo.addPair("user", utility::TableAbstractValue(activeUser.nickname));
     connInfo.addPair("password", utility::TableAbstractValue(activeUser.password));
-    _pConn = std::make_shared<SqlConnection>(std::make_shared<PostgreSqlAdapter>(connInfo),
-                                             std::make_shared<utility::PostgreSqlCommandSource>());
+
+    auto sqlType = utility::JsonConfiguration::getInstance()->used_sql;
+    switch (sqlType) {
+        case utility::DbConfiguration::Sqls::Postgres:
+            _pConn = std::make_shared<SqlConnection>(std::make_shared<PostgreSqlAdapter>(connInfo),
+                                                     std::make_shared<utility::PostgreSqlCommandSource>());
+            break;
+        case utility::DbConfiguration::Sqls::MongoDb:
+        default:
+            throw std::logic_error("WOW we dont have mongodb");
+    }
+
 
     _pUserRepo = std::make_unique<decltype(_pUserRepo)::element_type>(_pConn);
     _pTournamentRepo = std::make_unique<decltype(_pTournamentRepo)::element_type>(_pConn);

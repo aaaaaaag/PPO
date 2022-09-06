@@ -3,6 +3,7 @@
 //
 
 #include "public/repositories/UserRepository.h"
+#include "utility/JsonConfiguration.h"
 
 #define ID_KEY "id"
 #define NAME_KEY "name"
@@ -95,7 +96,7 @@ polytour::db::repository::UserRepository::toFieldSet(const polytour::transport::
 polytour::db::repository::Identity polytour::db::repository::UserRepository::getIdentity() {
     Identity result;
 
-    result.tableName = "users";
+    result.tableName = utility::JsonConfiguration::getInstance()->table_users_name;
     result.tableColumns.emplace(ID_KEY, Identity::column_description_t{
             .type = utility::TableTypes::Serial,
             .mandatory = utility::FieldMandatory::NotNull
