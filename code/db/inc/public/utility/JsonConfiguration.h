@@ -15,7 +15,7 @@ namespace polytour::db::utility {
     public:
         enum class Sqls {
             Postgres,
-            MongoDb
+            MySql
         };
 
         std::string table_users_name;

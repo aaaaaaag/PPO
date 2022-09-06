@@ -12,5 +12,5 @@
     "name": "tournament_participants"
   },
   "db_name": "mydb",
-  "used_sql": "postgres"
+  "used_sql": "mysql"
 }
