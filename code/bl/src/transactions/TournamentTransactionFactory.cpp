@@ -60,6 +60,10 @@ polytour::bl::transaction::TournamentTransactionFactory::create(const polytour::
     transport::Logger::trace("TournamentTransactionFactory create method called");
     auto repoFactory = _factoryCreator->create(CurrentRoleSingleton::getInstance()->role);
     repoFactory->getTournamentRepository()->addObj(tournament);
+    auto curUser = *AuthUserSingleton::getInstance();
+    auto updatedUser = curUser;
+    updatedUser.tournamentsCreated++;
+    repoFactory->getUserRepository()->updateObj(curUser, updatedUser);
 }
 
 void polytour::bl::transaction::TournamentTransactionFactory::erase(const polytour::transport::Tournament &tournament) {

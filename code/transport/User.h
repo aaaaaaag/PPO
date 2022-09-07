@@ -20,6 +20,7 @@ namespace polytour::transport {
         std::string email;
         utility::NotMandatoryField<int> age;
         std::string password;
+        int tournamentsCreated = 0;
 
         int getOID() override {return id;}
 
@@ -31,6 +32,7 @@ namespace polytour::transport {
             std::optional<decltype(nickname)> nickname_;
             std::optional<decltype(age)> age_;
             std::optional<decltype(email)> email_;
+            std::optional<decltype(tournamentsCreated)> tournamentsCreated_;
         };
 
         using search_t = SearchUser;
