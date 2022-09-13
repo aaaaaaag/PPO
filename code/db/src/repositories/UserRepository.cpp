@@ -12,6 +12,7 @@
 #define AGE_KEY "age"
 #define EMAIL_KEY "email"
 #define PASSWORD_KEY "password"
+#define TOURNAMENTS_CREATED_KEY "tournaments_created"
 
 polytour::db::utility::FieldSet
 polytour::db::repository::UserRepository::toFieldSet(const polytour::transport::User &obj) {
@@ -29,6 +30,7 @@ polytour::db::repository::UserRepository::toFieldSet(const polytour::transport::
         result.addPair(AGE_KEY, utility::TableAbstractValue(obj.age.toNull()));
     result.addPair(EMAIL_KEY, utility::TableAbstractValue(obj.email));
     result.addPair(PASSWORD_KEY, utility::TableAbstractValue(obj.password));
+    result.addPair(TOURNAMENTS_CREATED_KEY, utility::TableAbstractValue(obj.tournamentsCreated));
     return result;
 }
 
@@ -60,6 +62,8 @@ polytour::db::repository::UserRepository::fromFieldSet(const polytour::db::utili
         result.email = field[EMAIL_KEY].toString();
     if (field.has_value_under_key(PASSWORD_KEY))
         result.password = field[PASSWORD_KEY].toString();
+    if (field.has_value_under_key(TOURNAMENTS_CREATED_KEY))
+        result.tournamentsCreated = field[TOURNAMENTS_CREATED_KEY].toInt();
     return result;
 }
 
@@ -90,6 +94,8 @@ polytour::db::repository::UserRepository::toFieldSet(const polytour::transport::
         result.addPair(EMAIL_KEY, utility::TableAbstractValue(obj.email_.value()));
     if (obj.password_.has_value())
         result.addPair(PASSWORD_KEY, utility::TableAbstractValue(obj.password_.value()));
+    if (obj.tournamentsCreated_.has_value())
+        result.addPair(TOURNAMENTS_CREATED_KEY, utility::TableAbstractValue(obj.tournamentsCreated_.value()));
     return result;
 }
 
@@ -123,6 +129,10 @@ polytour::db::repository::Identity polytour::db::repository::UserRepository::get
     });
     result.tableColumns.emplace(PASSWORD_KEY, Identity::column_description_t{
             .type = utility::TableTypes::String,
+            .mandatory = utility::FieldMandatory::NotNull
+    });
+    result.tableColumns.emplace(TOURNAMENTS_CREATED_KEY, Identity::column_description_t{
+            .type = utility::TableTypes::Int,
             .mandatory = utility::FieldMandatory::NotNull
     });
     return result;
